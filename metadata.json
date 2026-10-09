@@ -1,0 +1,6 @@
+{
+  "name": "Sun World Hòn Thơm - PA Voice Studio",
+  "description": "Hệ thống chuyển đổi kịch bản thông báo phát thanh đa ngữ (Việt, Anh, Hàn, Trung, Nga) tự nhiên cho khu vực Show và Cầu Hôn Sun World Hòn Thơm.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
