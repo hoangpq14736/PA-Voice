@@ -323,11 +323,20 @@ export function encodeWavBlob(audioBuffer: AudioBuffer): Blob {
  */
 export function encodeAudioBlob(audioBuffer: AudioBuffer, format: AudioFormat = 'mp3'): { blob: Blob; extension: string; mimeType: string } {
   if (format === 'mp3') {
-    return {
-      blob: encodeMp3Blob(audioBuffer, 128),
-      extension: 'mp3',
-      mimeType: 'audio/mp3',
-    };
+    try {
+      return {
+        blob: encodeMp3Blob(audioBuffer, 128),
+        extension: 'mp3',
+        mimeType: 'audio/mp3',
+      };
+    } catch (err) {
+      console.warn('MP3 encoding failed, falling back to WAV:', err);
+      return {
+        blob: encodeWavBlob(audioBuffer),
+        extension: 'wav',
+        mimeType: 'audio/wav',
+      };
+    }
   }
   return {
     blob: encodeWavBlob(audioBuffer),

@@ -324,55 +324,55 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/20 border-2 border-amber-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden">
-      {/* Decorative background glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="ios-card rounded-[28px] p-5 sm:p-7 space-y-6 relative overflow-hidden transition-all duration-300">
+      {/* Decorative subtle ambient glow */}
+      <div className="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10 pb-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/30">
-            <Zap className="w-6 h-6 fill-slate-950" />
+          <div className="w-10 h-10 rounded-[14px] bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-amber-500/25">
+            <Zap className="w-5 h-5 fill-slate-950" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-extrabold text-slate-100">
+              <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 Chế Độ 1-Chạm: Nhập Tiếng Việt ➔ Tải 5 File Audio
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                Tối Ưu Ít API Nhất
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+                Tối Ưu 1 Lần Gọi
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Chỉ cần soạn bản Việt Nam: Chọn chất giọng tùy ý, AI tự dịch sang Anh, Hàn, Trung, Nga và tạo file MP3 tải về cùng lúc
+              Chỉ cần soạn bản Việt Nam: Chọn chất giọng tùy ý, AI tự dịch và tạo đủ 5 file âm thanh tải về cùng lúc
             </p>
           </div>
         </div>
 
-        {/* Format Selector: MP3 vs WAV */}
-        <div className="flex items-center gap-2 self-start sm:self-auto bg-slate-950/80 p-1 rounded-xl border border-slate-800">
-          <span className="text-[11px] font-medium text-slate-400 pl-2">Định dạng file:</span>
+        {/* Format Selector: MP3 vs WAV (iOS Segmented Pill) */}
+        <div className="flex items-center gap-1.5 self-start sm:self-auto ios-pill-tab p-1 rounded-full border border-white/[0.08]">
+          <span className="text-[11px] font-medium text-slate-400 pl-2.5 pr-1">Định dạng:</span>
           <button
             type="button"
             onClick={() => onChangeAudioFormat('mp3')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 ${
               audioFormat === 'mp3'
-                ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
             title="Định dạng MP3 tiêu chuẩn: nhỏ gọn, tương thích mọi loại loa nén, amply và USB phát thanh"
           >
-            MP3 (Khuyên dùng)
+            MP3 (Chuẩn)
           </button>
           <button
             type="button"
             onClick={() => onChangeAudioFormat('wav')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 ${
               audioFormat === 'wav'
-                ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white'
             }`}
-            title="Định dạng WAV: chuẩn phòng thu không nén (dung lượng lớn hơn)"
+            title="Định dạng WAV: chuẩn phòng thu không nén"
           >
             WAV
           </button>
@@ -382,13 +382,13 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
       {/* 1. Main Vietnamese Input Field */}
       <div className="space-y-2 relative z-10">
         <div className="flex items-center justify-between text-xs">
-          <label className="font-bold text-slate-200 flex items-center gap-2">
-            <span className="text-lg">🇻🇳</span>
+          <label className="font-semibold text-slate-200 flex items-center gap-2">
+            <span className="text-base">🇻🇳</span>
             <span>Nội dung kịch bản thông báo Tiếng Việt (Bản gốc):</span>
           </label>
           <div className="flex items-center gap-2 text-slate-400 text-[11px]">
             <span className="flex items-center gap-1 font-mono">
-              <Clock className="w-3 h-3 text-amber-400" /> ~{estimatedSeconds} giây đọc
+              <Clock className="w-3 h-3 text-amber-400" /> ~{estimatedSeconds}s đọc
             </span>
             <span>•</span>
             <span className="font-mono">{wordCount} từ</span>
@@ -399,22 +399,22 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
           rows={3}
           value={viText}
           onChange={(e) => onUpdateVietnameseText(e.target.value)}
-          placeholder="Nhập nội dung thông báo tiếng Việt tại đây... Ví dụ: Kính thưa quý khách, chương trình biểu diễn nghệ thuật sẽ chính thức bắt đầu sau 15 phút nữa tại khu vực sân khấu chính. Xin mời quý khách vui lòng ổn định chỗ ngồi..."
-          className="w-full bg-slate-950 border border-slate-700/80 focus:border-amber-400 rounded-2xl p-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition leading-relaxed shadow-inner font-normal"
+          placeholder="Nhập nội dung thông báo tiếng Việt tại đây... Ví dụ: Kính thưa quý khách, chương trình biểu diễn nghệ thuật sẽ chính thức bắt đầu sau 15 phút nữa tại khu vực sân khấu chính..."
+          className="w-full bg-black/50 border border-white/[0.08] focus:border-amber-400/80 focus:ring-2 focus:ring-amber-500/20 rounded-2xl p-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-all leading-relaxed shadow-inner"
         />
       </div>
 
-      {/* 2. PRE-GENERATION VOICE & SPEED CONFIGURATOR (NEW REQUESTED FEATURE) */}
-      <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 relative z-10 space-y-3.5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-slate-800/80">
+      {/* 2. PRE-GENERATION VOICE & SPEED CONFIGURATOR */}
+      <div className="ios-card-nested rounded-2xl p-4 sm:p-4.5 relative z-10 space-y-3.5 border border-white/[0.06]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-white/[0.06]">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+            <div className="p-1.5 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/20">
               <Mic className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2">
-                <span>Chọn Chất Giọng & Tốc Độ Cho Từng Ngôn Ngữ (Trước Khi Bấm Tạo)</span>
-                <span className="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full font-medium hidden md:inline">
+              <h3 className="text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-2">
+                <span>Chọn Chất Giọng & Tốc Độ Cho Từng Ngôn Ngữ</span>
+                <span className="text-[10px] bg-amber-500/15 text-amber-300 px-2 py-0.5 rounded-full font-medium hidden md:inline border border-amber-500/25">
                   Áp dụng ngay cho 1-Chạm
                 </span>
               </h3>
@@ -427,7 +427,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={() => handleSetAllVoices('female')}
-              className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700/80 transition cursor-pointer"
+              className="text-[11px] px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] transition-all cursor-pointer font-medium"
               title="Đặt toàn bộ 5 ngôn ngữ sang giọng Nữ truyền cảm"
             >
               👩 Tất cả giọng Nữ
@@ -435,7 +435,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={() => handleSetAllVoices('male')}
-              className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700/80 transition cursor-pointer"
+              className="text-[11px] px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] transition-all cursor-pointer font-medium"
               title="Đặt toàn bộ 5 ngôn ngữ sang giọng Nam trầm ấm dõng dạc"
             >
               👨 Tất cả giọng Nam
@@ -443,7 +443,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={() => handleSetAllVoices('alternating')}
-              className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700/80 transition cursor-pointer"
+              className="text-[11px] px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] transition-all cursor-pointer font-medium"
               title="Đan xen Nữ & Nam theo chuẩn phát thanh quốc tế"
             >
               🎭 Đan xen Nữ - Nam
@@ -451,7 +451,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={handleResetToDefaultVoices}
-              className="p-1 text-slate-500 hover:text-slate-300 transition cursor-pointer"
+              className="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer"
               title="Khôi phục mặc định"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -459,7 +459,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={() => setShowVoiceCustomizer(!showVoiceCustomizer)}
-              className="p-1 text-slate-400 hover:text-slate-200 transition cursor-pointer sm:hidden"
+              className="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer sm:hidden"
             >
               {showVoiceCustomizer ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
@@ -476,22 +476,22 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
               return (
                 <div
                   key={cfg.code}
-                  className="bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-xl p-3 flex flex-col justify-between space-y-2.5 transition"
+                  className="bg-neutral-900/80 border border-white/[0.07] hover:border-white/[0.14] rounded-2xl p-3 flex flex-col justify-between space-y-2.5 transition-all duration-200"
                 >
                   {/* Language Card Header */}
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-800/80">
-                    <span className="font-bold text-xs text-slate-200 flex items-center gap-1.5">
-                      <span className="text-base">{cfg.flag}</span>
+                  <div className="flex items-center justify-between pb-1.5 border-b border-white/[0.06]">
+                    <span className="font-semibold text-xs text-white flex items-center gap-1.5">
+                      <span className="text-sm">{cfg.flag}</span>
                       <span>{cfg.name}</span>
                     </span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
+                      className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                         selectedVoiceOption?.gender === 'Nữ'
-                          ? 'bg-rose-500/10 text-rose-300 border border-rose-500/20'
-                          : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+                          ? 'bg-rose-500/15 text-rose-300 border border-rose-500/25'
+                          : 'bg-blue-500/15 text-blue-300 border border-blue-500/25'
                       }`}
                     >
-                      {selectedVoiceOption?.gender === 'Nữ' ? 'Giọng Nữ' : 'Giọng Nam'}
+                      {selectedVoiceOption?.gender === 'Nữ' ? 'Nữ' : 'Nam'}
                     </span>
                   </div>
 
@@ -499,25 +499,25 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
                   <div>
                     <div className="flex justify-between items-center mb-1">
                       <label className="text-[10px] font-medium text-slate-400">
-                        Chất giọng (AI Voice):
+                        Chất giọng AI:
                       </label>
                       <span className="text-[10px] text-amber-400/90 font-mono">
-                        {cfg.voiceOptions.length} lựa chọn
+                        {cfg.voiceOptions.length} giọng
                       </span>
                     </div>
                     <select
                       value={langState.voice}
                       onChange={(e) => onUpdateScript(cfg.code, { voice: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2 py-1.5 text-xs text-slate-200 focus:border-amber-500 focus:outline-none cursor-pointer"
+                      className="w-full bg-black/60 border border-white/[0.1] rounded-xl px-2 py-1.5 text-xs text-slate-100 focus:border-amber-400 focus:outline-none cursor-pointer transition-colors"
                     >
-                      <optgroup label="👩 Giọng Nữ (8 chất giọng)">
+                      <optgroup label="👩 Giọng Nữ">
                         {cfg.voiceOptions.filter(v => v.gender === 'Nữ').map((opt) => (
                           <option key={opt.id} value={opt.id}>
                             {opt.name}
                           </option>
                         ))}
                       </optgroup>
-                      <optgroup label="👨 Giọng Nam (8 chất giọng)">
+                      <optgroup label="👨 Giọng Nam">
                         {cfg.voiceOptions.filter(v => v.gender === 'Nam').map((opt) => (
                           <option key={opt.id} value={opt.id}>
                             {opt.name}
@@ -535,13 +535,13 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
                   {/* Speed Selector */}
                   <div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
-                      <span>Tốc độ đọc:</span>
-                      <span className="font-mono font-bold text-amber-400">{langState.speed.toFixed(2)}x</span>
+                      <span>Tốc độ:</span>
+                      <span className="font-mono font-semibold text-amber-400">{langState.speed.toFixed(2)}x</span>
                     </div>
                     <select
                       value={langState.speed}
                       onChange={(e) => onUpdateScript(cfg.code, { speed: parseFloat(e.target.value) })}
-                      className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2 py-1 text-xs text-slate-200 focus:border-amber-500 focus:outline-none cursor-pointer"
+                      className="w-full bg-black/60 border border-white/[0.1] rounded-xl px-2 py-1 text-xs text-slate-100 focus:border-amber-400 focus:outline-none cursor-pointer transition-colors"
                     >
                       <option value={0.85}>0.85x (Chậm rõ ràng)</option>
                       <option value={0.95}>0.95x (Vừa phải ngoài trời)</option>
@@ -555,14 +555,14 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
                   <div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400 mb-1">
                       <span>Tông giọng (Pitch):</span>
-                      <span className="font-mono font-bold text-amber-400">
+                      <span className="font-mono font-semibold text-amber-400">
                         {langState.pitch > 0 ? `+${langState.pitch}` : langState.pitch === 0 ? 'Chuẩn' : langState.pitch}
                       </span>
                     </div>
                     <select
                       value={langState.pitch}
                       onChange={(e) => onUpdateScript(cfg.code, { pitch: parseInt(e.target.value, 10) })}
-                      className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-2 py-1 text-xs text-slate-200 focus:border-amber-500 focus:outline-none cursor-pointer"
+                      className="w-full bg-black/60 border border-white/[0.1] rounded-xl px-2 py-1 text-xs text-slate-100 focus:border-amber-400 focus:outline-none cursor-pointer transition-colors"
                     >
                       <option value={-2}>Trầm ấm (-2)</option>
                       <option value={0}>Chuẩn tự nhiên (0)</option>
@@ -578,25 +578,25 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
         {/* Global Speed Presets Bar */}
         <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span>Đồng bộ tốc độ cả 5 thứ tiếng:</span>
+            <span>Đồng bộ tốc độ cả 5 ngôn ngữ:</span>
             <button
               type="button"
               onClick={() => handleSetAllSpeeds(0.9)}
-              className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-800 cursor-pointer"
+              className="px-2.5 py-0.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] cursor-pointer transition-all"
             >
               🐢 Chậm rõ (0.9x ngoài trời)
             </button>
             <button
               type="button"
               onClick={() => handleSetAllSpeeds(1.0)}
-              className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-800 cursor-pointer"
+              className="px-2.5 py-0.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] cursor-pointer transition-all"
             >
               ⚡ Chuẩn tự nhiên (1.0x)
             </button>
             <button
               type="button"
               onClick={() => handleSetAllSpeeds(1.15)}
-              className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-800 cursor-pointer"
+              className="px-2.5 py-0.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-slate-300 hover:text-white border border-white/[0.06] cursor-pointer transition-all"
             >
               🚀 Nhanh gọn (1.15x)
             </button>
@@ -605,7 +605,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
       </div>
 
       {/* Live Voice Summary Banner (Displays exact voices selected) */}
-      <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl px-3.5 py-2 text-[11px] text-slate-300 flex items-center justify-between flex-wrap gap-2 relative z-10">
+      <div className="ios-card-nested rounded-2xl px-4 py-2.5 text-[11px] text-slate-300 flex items-center justify-between flex-wrap gap-2 relative z-10 border border-white/[0.06]">
         <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
           <Mic className="w-3.5 h-3.5" />
           <span>Giọng sẽ tạo:</span>
@@ -616,32 +616,32 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             return (
               <span key={cfg.code} className="flex items-center gap-1">
                 <span>{cfg.flag}</span>
-                <span className="text-slate-200">{st.voice}</span>
-                <span className="text-slate-500 text-[10px]">({st.speed.toFixed(1)}x)</span>
+                <span className="text-white font-medium">{st.voice}</span>
+                <span className="text-slate-400 text-[10px]">({st.speed.toFixed(1)}x)</span>
               </span>
             );
           })}
         </div>
       </div>
 
-      {/* 2.5 ACTIVE 20s RATE-LIMIT PACING CARD (Shown when 1-Click or Batch Pacing is running) */}
+      {/* 2.5 ACTIVE 20s RATE-LIMIT PACING CARD */}
       {(pacingState.isActive && pacingState.mode === 'one-click') && (
-        <div className="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-slate-900 border-2 border-amber-500/50 rounded-2xl p-4.5 space-y-3 relative z-10 animate-in fade-in duration-200 shadow-xl shadow-amber-950/30">
-          <div className="flex items-center justify-between gap-3 pb-2 border-b border-amber-500/20">
+        <div className="ios-card rounded-2xl p-4.5 space-y-3 relative z-10 animate-in fade-in duration-200 border border-amber-500/30 shadow-xl">
+          <div className="flex items-center justify-between gap-3 pb-2 border-b border-white/[0.08]">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-amber-500 text-slate-950 font-black animate-pulse">
-                <Clock className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center animate-pulse">
+                <Clock className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-extrabold text-amber-300">
-                    Chế Độ 1-Chạm An Toàn (Giới Hạn 3 RPM): Đang Giãn Cách 20 Giây
+                  <h4 className="text-xs sm:text-sm font-bold text-amber-300">
+                    Chế Độ 1-Chạm An Toàn: Đang Giãn Cách 20 Giây
                   </h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-bold">
                     {pacingState.completedCount}/5 Hoàn tất
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-0.5 font-medium">
+                <p className="text-xs text-slate-300 mt-0.5">
                   {pacingState.message}
                 </p>
               </div>
@@ -650,7 +650,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             <button
               type="button"
               onClick={onCancelPacing}
-              className="px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/40 transition cursor-pointer"
+              className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 transition-all active:scale-95 cursor-pointer"
             >
               Dừng / Hủy
             </button>
@@ -658,17 +658,17 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
 
           {/* 20s Delay Countdown Progress Bar */}
           {pacingState.phase === 'delaying_cooldown' && (
-            <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-amber-500/30">
+            <div className="space-y-1.5 bg-black/40 p-3 rounded-xl border border-white/[0.06]">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-amber-300 flex items-center gap-1.5">
+                <span className="font-medium text-amber-300 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 animate-spin" />
                   Đang đếm ngược 20 giây chống khóa 3 RPM:
                 </span>
-                <span className="font-mono font-black text-amber-400 text-sm">
+                <span className="font-mono font-bold text-amber-400 text-sm">
                   {pacingState.remainingSeconds}s / 20s
                 </span>
               </div>
-              <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+              <div className="w-full h-2 bg-white/[0.1] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full transition-all duration-1000 ease-linear"
                   style={{
@@ -676,9 +676,6 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
                   }}
                 />
               </div>
-              <p className="text-[11px] text-slate-400">
-                Mô hình TTS giới hạn 3 request/phút. Việc tạm dừng đúng 20 giây đảm bảo không bao giờ bị lỗi 429 Quota Exceeded.
-              </p>
             </div>
           )}
 
@@ -692,14 +689,14 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
               return (
                 <div
                   key={cfg.code}
-                  className={`p-2 rounded-xl text-xs font-medium border transition ${
+                  className={`p-2 rounded-xl text-xs font-medium border transition-all ${
                     hasAudio
-                      ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
                       : isCurrent
-                      ? 'bg-amber-500/20 border-amber-500/60 text-amber-300 ring-2 ring-amber-400/30 animate-pulse'
+                      ? 'bg-amber-500/20 border-amber-500/40 text-amber-300 ring-2 ring-amber-400/20 animate-pulse'
                       : isNext && pacingState.phase === 'delaying_cooldown'
-                      ? 'bg-orange-500/10 border-orange-500/40 text-orange-300'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-500'
+                      ? 'bg-orange-500/10 border-orange-500/30 text-orange-300'
+                      : 'bg-black/30 border-white/[0.06] text-slate-500'
                   }`}
                 >
                   <div className="text-base mb-0.5">{cfg.flag}</div>
@@ -731,7 +728,7 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
           type="button"
           onClick={onExecuteOneClickFlow}
           disabled={isProcessingOneClick || isTranslating || isGeneratingAudio || !viText.trim()}
-          className="sm:col-span-12 lg:col-span-5 flex items-center justify-center gap-2.5 px-5 py-4 rounded-2xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-300 shadow-xl shadow-amber-500/25 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
+          className="sm:col-span-12 lg:col-span-5 flex items-center justify-center gap-2.5 px-5 py-4 rounded-2xl font-bold text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:brightness-105 active:scale-[0.98] shadow-lg shadow-amber-500/25 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
         >
           {isProcessingOneClick || pacingState.isActive ? (
             <>
@@ -749,9 +746,9 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             </>
           ) : (
             <>
-              <Zap className="w-5 h-5 fill-slate-950 group-hover:scale-110 transition" />
+              <Zap className="w-5 h-5 fill-slate-950 group-hover:scale-110 transition-transform" />
               <span>⚡ 1-CHẠM: DỊCH & TẠO 5 FILE {audioFormat.toUpperCase()}</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </>
           )}
         </button>
@@ -761,12 +758,12 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
           type="button"
           onClick={handleDownloadAllZip}
           disabled={isZipping || readyLangs.length === 0}
-          className={`sm:col-span-6 lg:col-span-3.5 flex items-center justify-center gap-2 px-4 py-4 rounded-2xl font-extrabold text-xs sm:text-sm transition shadow-lg cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`sm:col-span-6 lg:col-span-3.5 flex items-center justify-center gap-2 px-4 py-4 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-200 shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] ${
             allReady
-              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-950/40 border border-emerald-400/40'
-              : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:brightness-105 text-white shadow-emerald-950/40 border border-emerald-400/30'
+              : 'bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/[0.08]'
           }`}
-          title="Tải 1 file nén ZIP chứa toàn bộ 5 file MP3/WAV riêng biệt + 1 file Master liên hoàn"
+          title="Tải file nén ZIP chứa toàn bộ 5 file MP3/WAV"
         >
           {isZipping ? (
             <>
@@ -786,12 +783,12 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
           type="button"
           onClick={handleSaveAllToGoogleDrive}
           disabled={isSavingToDrive || readyLangs.length === 0}
-          className={`sm:col-span-6 lg:col-span-3.5 flex items-center justify-center gap-2 px-4 py-4 rounded-2xl font-extrabold text-xs sm:text-sm transition shadow-lg cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`sm:col-span-6 lg:col-span-3.5 flex items-center justify-center gap-2 px-4 py-4 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-200 shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] ${
             allReady
-              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-950/40 border border-blue-400/40'
-              : 'bg-slate-800 hover:bg-slate-700 text-blue-300 border border-slate-700'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:brightness-105 text-white shadow-blue-950/40 border border-blue-400/30'
+              : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/20'
           }`}
-          title="Lưu tất cả file âm thanh MP3 trực tiếp vào thư mục Google Drive của bạn"
+          title="Lưu tất cả file âm thanh MP3 trực tiếp vào Google Drive"
         >
           {isSavingToDrive ? (
             <>
@@ -812,10 +809,10 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
       </div>
 
       {/* 4. Secondary Quick Actions & Status Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/[0.08] text-xs">
         {/* Readiness Badges for the 5 Languages */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-slate-400 font-medium">Trạng thái Audio:</span>
+          <span className="text-slate-400 font-medium text-[11px]">Trạng thái:</span>
           {languages.map((code) => {
             const hasAudio = !!scriptsState[code].audioBase64;
             const flags: Record<LanguageCode, string> = {
@@ -829,10 +826,10 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
             return (
               <span
                 key={code}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition ${
+                className={`flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-medium border transition-all ${
                   hasAudio
-                    ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-                    : 'bg-slate-950 text-slate-500 border-slate-800'
+                    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                    : 'bg-white/[0.04] text-slate-500 border-white/[0.06]'
                 }`}
               >
                 {hasAudio && <CheckCircle2 className="w-3 h-3 text-emerald-400" />}
@@ -850,8 +847,8 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
               type="button"
               onClick={handleDownloadIndividually}
               disabled={isZipping}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700 text-xs font-semibold transition cursor-pointer"
-              title="Tải 5 file rời trực tiếp vào thư mục Downloads của máy tính"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-all active:scale-95 cursor-pointer"
+              title="Tải 5 file rời trực tiếp vào máy tính"
             >
               <FileDown className="w-3.5 h-3.5" />
               <span>Tải 5 file rời</span>
@@ -861,17 +858,17 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
           <button
             type="button"
             onClick={onOpenGoogleDriveModal}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-950/40 hover:bg-blue-900/40 text-blue-300 border border-blue-800/60 text-xs font-semibold transition cursor-pointer"
-            title="Mở thư mục và xem các file đã lưu trên Google Drive"
+            className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/25 text-xs font-medium transition-all active:scale-95 cursor-pointer"
+            title="Mở và quản lý Google Drive"
           >
             <Cloud className="w-3.5 h-3.5 text-blue-400" />
-            <span>{currentUser ? 'Quản lý Google Drive' : 'Liên kết Drive'}</span>
+            <span>{currentUser ? 'Quản lý Drive' : 'Liên kết Drive'}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowApiExplainer(!showApiExplainer)}
-            className="flex items-center gap-1 text-slate-400 hover:text-amber-300 transition text-[11px] font-medium cursor-pointer"
+            className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors text-[11px] font-medium cursor-pointer"
           >
             <Info className="w-3.5 h-3.5" />
             <span>Ít API</span>
@@ -881,34 +878,34 @@ export const QuickOneClickStudio: React.FC<QuickOneClickStudioProps> = ({
 
       {/* Explainer Accordion: How this uses the minimal API calls */}
       {showApiExplainer && (
-        <div className="bg-slate-950/90 border border-amber-500/30 rounded-2xl p-4 text-xs space-y-2.5 animate-in fade-in duration-150">
+        <div className="ios-card-nested border border-white/[0.08] rounded-2xl p-4.5 text-xs space-y-3 animate-in fade-in duration-200">
           <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             Chiến Lược Tối Ưu Tối Thiểu Lượt Gọi API Của Hệ Thống:
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-slate-300">
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span className="font-bold text-amber-300 block mb-1">1. Dịch thuật: Chỉ 1 Lần Gọi Duy Nhất</span>
-              <p className="text-[11px] text-slate-400">
-                Gửi toàn bộ văn bản tiếng Việt lên và Gemini trả về cả 4 thứ tiếng (Anh, Hàn, Trung, Nga) cùng lúc trong 1 JSON payload. Tiết kiệm 75% số lượng request.
+            <div className="bg-black/40 p-3.5 rounded-xl border border-white/[0.06]">
+              <span className="font-semibold text-amber-300 block mb-1">1. Dịch thuật: 1 Lần Gọi Duy Nhất</span>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Gemini trả về cả 4 thứ tiếng (Anh, Hàn, Trung, Nga) cùng lúc trong 1 JSON payload. Tiết kiệm 75% request.
               </p>
             </div>
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span className="font-bold text-amber-300 block mb-1">2. Bộ Nhớ Đệm Thông Minh (Smart Cache)</span>
-              <p className="text-[11px] text-slate-400">
-                Nếu kịch bản không thay đổi, hệ thống giữ nguyên file âm thanh. Bấm nghe lại, chỉnh tốc độ đọc, đổi tông giọng tốn <strong>0 lượt API</strong>.
+            <div className="bg-black/40 p-3.5 rounded-xl border border-white/[0.06]">
+              <span className="font-semibold text-amber-300 block mb-1">2. Bộ Nhớ Đệm Smart Cache</span>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Nếu văn bản không đổi, giữ nguyên file âm thanh. Bấm nghe lại hoặc đổi tốc độ đọc tốn <strong>0 lượt API</strong>.
               </p>
             </div>
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span className="font-bold text-amber-300 block mb-1">3. Ghép Chuông & Xuất MP3/ZIP Offline</span>
-              <p className="text-[11px] text-slate-400">
-                Chuông hiệu, nén MP3 128kbps, và đóng gói file .ZIP đều chạy bằng Web Audio & LameJS ngay trên trình duyệt máy bạn, không tốn API.
+            <div className="bg-black/40 p-3.5 rounded-xl border border-white/[0.06]">
+              <span className="font-semibold text-amber-300 block mb-1">3. Xuất MP3/ZIP Offline</span>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Nén MP3 128kbps và đóng gói file .ZIP chạy bằng Web Audio & LameJS ngay trên trình duyệt, không tốn API.
               </p>
             </div>
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-amber-500/30">
-              <span className="font-bold text-amber-300 block mb-1">4. Giãn Cách 20s (Chống Lỗi 3 RPM)</span>
-              <p className="text-[11px] text-slate-400">
-                Mô hình TTS giới hạn 3 RPM (3 lượt/phút). Hệ thống tự động giãn cách 20 giây giữa mỗi ngôn ngữ để không bao giờ bị lỗi 429 Quota Exceeded.
+            <div className="bg-black/40 p-3.5 rounded-xl border border-white/[0.06]">
+              <span className="font-semibold text-amber-300 block mb-1">4. Giãn Cách 20s (Chống Lỗi 3 RPM)</span>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Mô hình TTS giới hạn 3 RPM. Hệ thống giãn cách 20 giây giữa các ngôn ngữ để an toàn tuyệt đối.
               </p>
             </div>
           </div>

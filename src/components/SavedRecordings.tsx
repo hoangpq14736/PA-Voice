@@ -16,13 +16,13 @@ export const SavedRecordings: React.FC<SavedRecordingsProps> = ({
   if (savedItems.length === 0) return null;
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+    <div className="ios-card rounded-[24px] p-5 sm:p-6 space-y-4 border border-white/[0.08]">
+      <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <h3 className="text-sm font-bold text-white flex items-center gap-2">
           <Bookmark className="w-4 h-4 text-amber-400" />
           Kịch Bản Đã Lưu Trong Ca Trực ({savedItems.length})
         </h3>
-        <span className="text-xs text-slate-500">Lưu trữ cục bộ trình duyệt</span>
+        <span className="text-xs text-slate-500">Lưu cục bộ</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -35,11 +35,11 @@ export const SavedRecordings: React.FC<SavedRecordingsProps> = ({
           return (
             <div
               key={item.id}
-              className="bg-slate-950/60 border border-slate-800/80 hover:border-slate-700 p-3.5 rounded-xl flex flex-col justify-between transition group"
+              className="bg-black/40 border border-white/[0.08] hover:border-white/[0.18] p-4 rounded-2xl flex flex-col justify-between transition-all duration-200 group"
             >
               <div>
-                <div className="flex items-start justify-between gap-2 mb-1.5">
-                  <span className="text-xs font-semibold text-slate-200 group-hover:text-amber-400 transition truncate">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <span className="text-xs font-semibold text-white group-hover:text-amber-300 transition-colors truncate">
                     {item.title}
                   </span>
                   <button
@@ -55,13 +55,13 @@ export const SavedRecordings: React.FC<SavedRecordingsProps> = ({
                   </button>
                 </div>
 
-                <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 italic">
+                <p className="text-[11px] text-slate-400 line-clamp-2 mb-3 leading-relaxed italic">
                   "{item.scripts.vi}"
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-                <span className="flex items-center gap-1">
+              <div className="pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-slate-500">
+                <span className="flex items-center gap-1 font-mono">
                   <Clock className="w-3 h-3 text-slate-400" /> {dateStr}
                   {item.duration > 0 && ` • ~${Math.round(item.duration)}s`}
                 </span>
@@ -69,9 +69,9 @@ export const SavedRecordings: React.FC<SavedRecordingsProps> = ({
                 <button
                   type="button"
                   onClick={() => onLoadItem(item)}
-                  className="flex items-center gap-1 text-amber-400 hover:text-amber-300 font-medium transition cursor-pointer"
+                  className="flex items-center gap-1 text-amber-400 hover:text-white font-medium transition-colors cursor-pointer text-xs"
                 >
-                  <span>Sử dụng lại</span>
+                  <span>Mở lại</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </button>
               </div>

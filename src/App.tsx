@@ -14,9 +14,8 @@ import { QuickOneClickStudio } from './components/QuickOneClickStudio';
 import { SavedRecordings } from './components/SavedRecordings';
 import { AiScriptGeneratorModal } from './components/AiScriptGeneratorModal';
 import { HelpModal } from './components/HelpModal';
-import { ApiKeyModal } from './components/ApiKeyModal';
 import { GoogleDriveModal } from './components/GoogleDriveModal';
-import { getSavedApiKey, getApiHeaders } from './utils/apiKeyManager';
+import { getApiHeaders } from './utils/apiKeyManager';
 import { initAuth } from './services/googleDriveService';
 import { User } from 'firebase/auth';
 import { Sparkles, MapPin, AlertCircle, Info, BookmarkPlus } from 'lucide-react';
@@ -41,9 +40,7 @@ export default function App() {
   // Modals
   const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
-  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const [isGoogleDriveModalOpen, setIsGoogleDriveModalOpen] = useState<boolean>(false);
-  const [hasCustomApiKey, setHasCustomApiKey] = useState<boolean>(() => !!getSavedApiKey());
 
   // Google Drive Authentication (In-Memory token cache)
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -721,28 +718,26 @@ export default function App() {
         onOpenHelp={() => setIsHelpModalOpen(true)}
         selectedChime={selectedChime}
         onChangeChime={(chime) => setSelectedChime(chime)}
-        onOpenApiKeyModal={() => setIsApiKeyModalOpen(true)}
-        hasCustomApiKey={hasCustomApiKey}
         globalCooldown={globalCooldown}
         onOpenGoogleDriveModal={() => setIsGoogleDriveModalOpen(true)}
         isDriveConnected={!!currentUser}
         userEmail={currentUser?.email}
       />
 
-      {/* Toast Notification */}
+      {/* Toast Notification (iOS Dynamic Island / Capsule Banner Style) */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold backdrop-blur-md animate-in slide-in-from-bottom-2 duration-200">
+        <div className="fixed top-20 right-5 sm:right-8 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
           <div
-            className={`flex items-center gap-2 ${
+            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-2xl border text-xs font-medium backdrop-blur-2xl ${
               toastMessage.type === 'success'
-                ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/40'
+                ? 'bg-black/80 text-emerald-300 border-emerald-500/30'
                 : toastMessage.type === 'error'
-                ? 'bg-rose-950/90 text-rose-300 border-rose-500/40'
-                : 'bg-slate-900/90 text-amber-300 border-amber-500/40'
-            } p-3 rounded-xl border`}
+                ? 'bg-black/80 text-rose-300 border-rose-500/30'
+                : 'bg-black/80 text-amber-300 border-amber-500/30'
+            }`}
           >
             {toastMessage.type === 'success' ? (
-              <span className="text-emerald-400">✓</span>
+              <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[11px]">✓</span>
             ) : toastMessage.type === 'error' ? (
               <AlertCircle className="w-4 h-4 text-rose-400" />
             ) : (
@@ -818,15 +813,15 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950 py-6 text-xs text-slate-500 text-center">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="border-t border-white/[0.08] bg-black/60 backdrop-blur-xl py-6 text-xs text-slate-500 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-amber-400">PA VOICE STUDIO</span>
+            <span className="font-semibold text-white">PA Voice Studio</span>
             <span>•</span>
             <span>Hệ thống chuyển đổi kịch bản thông báo đa ngữ tự nhiên</span>
           </div>
-          <p>
-            Tích hợp Gemini AI TTS • Tương thích mọi hệ thống âm thanh thông báo và loa nén công cộng
+          <p className="text-slate-500">
+            Gemini AI TTS • Tương thích mọi hệ thống âm thanh thông báo và loa nén công cộng
           </p>
         </div>
       </footer>
@@ -841,12 +836,6 @@ export default function App() {
       <HelpModal
         isOpen={isHelpModalOpen}
         onClose={() => setIsHelpModalOpen(false)}
-      />
-
-      <ApiKeyModal
-        isOpen={isApiKeyModalOpen}
-        onClose={() => setIsApiKeyModalOpen(false)}
-        onKeyChanged={(hasKey) => setHasCustomApiKey(hasKey)}
       />
 
       <GoogleDriveModal

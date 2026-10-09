@@ -681,6 +681,26 @@ Return ONLY a JSON object:
 });
 
 /**
+ * Safe Firebase Config endpoint (serves local config without committing to git)
+ */
+app.get("/api/firebase-config", async (_req, res) => {
+  try {
+    const configPath = path.resolve(process.cwd(), "firebase-applet-config.json");
+    const content = await fs.readFile(configPath, "utf8");
+    const config = JSON.parse(content);
+    return res.json(config);
+  } catch {
+    // fallback
+  }
+  return res.json({
+    projectId: process.env.VITE_FIREBASE_PROJECT_ID || "",
+    appId: process.env.VITE_FIREBASE_APP_ID || "",
+    apiKey: process.env.VITE_FIREBASE_API_KEY || "",
+    authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || "",
+  });
+});
+
+/**
  * Setup Vite or static serving
  */
 async function startServer() {

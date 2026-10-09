@@ -1,38 +1,26 @@
-const STORAGE_KEY = 'custom_gemini_api_key';
+/**
+ * API Headers Manager
+ * All AI interactions use secure server-side proxy routes with process.env.GEMINI_API_KEY.
+ * No client-side API keys are stored or exposed.
+ */
 
 export function getSavedApiKey(): string {
-  try {
-    return localStorage.getItem(STORAGE_KEY) || '';
-  } catch {
-    return '';
-  }
+  return '';
 }
 
-export function saveApiKey(key: string): void {
-  try {
-    if (!key || !key.trim()) {
-      localStorage.removeItem(STORAGE_KEY);
-    } else {
-      localStorage.setItem(STORAGE_KEY, key.trim());
-    }
-  } catch (e) {
-    console.error('Failed to save API key:', e);
-  }
+export function saveApiKey(_key: string): void {
+  // No-op: API keys are securely managed server-side
 }
 
 export function clearApiKey(): void {
   try {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('custom_gemini_api_key');
   } catch {}
 }
 
 export function getApiHeaders(): HeadersInit {
-  const headers: Record<string, string> = {
+  return {
     'Content-Type': 'application/json',
   };
-  const key = getSavedApiKey();
-  if (key) {
-    headers['x-gemini-api-key'] = key;
-  }
-  return headers;
 }
+

@@ -247,19 +247,19 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
     return (
       <div
         key={lang}
-        className={`bg-slate-900 border rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition ${
+        className={`ios-card rounded-[24px] p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 ${
           activeTab === lang && !isGrid
-            ? 'border-amber-500/60 ring-1 ring-amber-500/20 shadow-xl'
-            : 'border-slate-800'
+            ? 'border-amber-500/40 shadow-2xl'
+            : 'border-white/[0.08]'
         }`}
       >
         <div>
           {/* Header of Card */}
-          <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xl sm:text-2xl">{langConfig.flag}</span>
+          <div className="flex items-center justify-between gap-2 mb-3.5">
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl">{langConfig.flag}</span>
               <div>
-                <h3 className="font-bold text-sm sm:text-base text-slate-100 flex items-center gap-2">
+                <h3 className="font-bold text-sm sm:text-base text-white flex items-center gap-2">
                   {langConfig.name}
                   <span className="text-xs font-normal text-slate-400">({langConfig.nativeName})</span>
                 </h3>
@@ -268,11 +268,11 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
 
             <div className="flex items-center gap-2">
               {state.audioBase64 ? (
-                <span className="flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                  <CheckCircle2 className="w-3 h-3" /> Audio sẵn sàng
+                <span className="flex items-center gap-1 text-[11px] font-semibold text-emerald-300 bg-emerald-500/15 border border-emerald-500/25 px-2.5 py-0.5 rounded-full">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Audio sẵn sàng
                 </span>
               ) : (
-                <span className="text-[11px] text-slate-500 font-medium">Chưa tạo audio</span>
+                <span className="text-[11px] text-slate-500 font-medium px-2 py-0.5">Chưa tạo audio</span>
               )}
 
               {lang === 'vi' && (
@@ -280,7 +280,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                   type="button"
                   onClick={onAutoTranslateAll}
                   disabled={isTranslating || !state.text.trim()}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-xs rounded-lg shadow-md shadow-amber-500/20 transition cursor-pointer disabled:opacity-50"
+                  className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:brightness-105 active:scale-95 text-slate-950 font-bold text-xs rounded-full shadow-md shadow-amber-500/20 transition-all cursor-pointer disabled:opacity-50"
                   title="Dịch nội dung tiếng Việt này sang 4 ngôn ngữ còn lại (Anh, Hàn, Trung, Nga)"
                 >
                   {isTranslating ? (
@@ -295,15 +295,15 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
           </div>
 
           {/* Text Area */}
-          <div className="relative mb-3">
+          <div className="relative mb-3.5">
             <textarea
               rows={isGrid ? 5 : 6}
               value={state.text}
               onChange={(e) => onUpdateScript(lang, { text: e.target.value })}
               placeholder={`Nhập kịch bản phát thanh ${langConfig.name}...`}
-              className="w-full bg-slate-950 border border-slate-800 focus:border-amber-500 rounded-xl p-3.5 text-xs sm:text-sm text-slate-100 placeholder-slate-600 focus:outline-none transition leading-relaxed resize-y font-normal"
+              className="w-full bg-black/50 border border-white/[0.08] focus:border-amber-400/80 focus:ring-2 focus:ring-amber-500/20 rounded-2xl p-4 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-all leading-relaxed resize-y font-normal"
             />
-            <div className="absolute right-3 bottom-3 text-[10px] text-slate-500 bg-slate-950/80 px-1.5 py-0.5 rounded pointer-events-none">
+            <div className="absolute right-3.5 bottom-3.5 text-[10px] text-slate-400 bg-black/70 px-2 py-0.5 rounded-full pointer-events-none border border-white/[0.06]">
               {wordCount} từ • {charCount} ký tự
             </div>
           </div>
@@ -314,7 +314,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               type="button"
               onClick={onAutoTranslateAll}
               disabled={isTranslating || !state.text.trim()}
-              className="sm:hidden w-full mb-3 flex items-center justify-center gap-1.5 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-bold text-xs rounded-lg shadow transition cursor-pointer disabled:opacity-50"
+              className="sm:hidden w-full mb-3 flex items-center justify-center gap-1.5 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 active:scale-95 text-slate-950 font-bold text-xs rounded-full shadow transition-all cursor-pointer disabled:opacity-50"
             >
               {isTranslating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Languages className="w-3.5 h-3.5" />}
               <span>Dịch tự động sang Anh - Hàn - Trung - Nga</span>
@@ -322,8 +322,8 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
           )}
 
           {/* Controls: Voice, Speed, Pitch */}
-          <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 space-y-3 mb-4">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-1 border-b border-slate-800/60">
+          <div className="ios-card-nested p-4 rounded-2xl border border-white/[0.06] space-y-3.5 mb-4">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-1.5 border-b border-white/[0.06]">
               <span className="flex items-center gap-1.5 text-amber-400">
                 <Sliders className="w-3.5 h-3.5" /> Cài đặt giọng đọc & Tông nhịp
               </span>
@@ -336,7 +336,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                     voice: langConfig.defaultVoice,
                   })
                 }
-                className="text-[10px] text-slate-400 hover:text-slate-200 flex items-center gap-1 cursor-pointer"
+                className="text-[10px] text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
                 title="Khôi phục mặc định"
               >
                 <RotateCcw className="w-3 h-3" /> Mặc định
@@ -356,7 +356,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               <select
                 value={state.voice}
                 onChange={(e) => onUpdateScript(lang, { voice: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:border-amber-500 focus:outline-none cursor-pointer"
+                className="w-full bg-black/60 border border-white/[0.1] rounded-xl px-2.5 py-1.5 text-xs text-slate-100 focus:border-amber-400 focus:outline-none cursor-pointer transition-colors"
               >
                 <optgroup label="👩 Giọng Nữ (Female Voices)">
                   {langConfig.voiceOptions.filter(v => v.gender === 'Nữ').map((opt) => (
@@ -380,13 +380,13 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               )}
 
               {state.audioBase64 && state.generatedVoice && state.generatedVoice !== state.voice && (
-                <div className="mt-2 p-2 rounded-lg bg-amber-500/15 border border-amber-500/40 flex items-center justify-between text-[11px] text-amber-300">
+                <div className="mt-2 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-between text-[11px] text-amber-300">
                   <span>💡 Đã chọn chất giọng mới (<strong>{state.voice}</strong>).</span>
                   <button
                     type="button"
                     onClick={() => onGenerateSpeechForLang(lang)}
                     disabled={state.isGenerating}
-                    className="ml-2 px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] cursor-pointer whitespace-nowrap shadow"
+                    className="ml-2 px-3 py-1 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] cursor-pointer whitespace-nowrap shadow active:scale-95 transition-all"
                   >
                     Tạo lại ngay
                   </button>
@@ -395,7 +395,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
             </div>
 
             {/* Speed & Pitch Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               {/* Speed Slider */}
               <div className="space-y-1">
                 <div className="flex justify-between items-center text-[11px]">
@@ -409,7 +409,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                   step="0.05"
                   value={state.speed}
                   onChange={(e) => onUpdateScript(lang, { speed: parseFloat(e.target.value) })}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full"
                 />
                 <div className="flex justify-between text-[9px] text-slate-400">
                   <span>Chậm (0.8x)</span>
@@ -421,7 +421,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               {/* Pitch Tone Slider */}
               <div className="space-y-1">
                 <div className="flex justify-between items-center text-[11px]">
-                  <span className="text-slate-300 font-medium">Tông giọng (Pitch / Tone)</span>
+                  <span className="text-slate-300 font-medium">Tông giọng (Pitch)</span>
                   <span className="font-mono font-bold text-amber-400">
                     {state.pitch > 0 ? `+${state.pitch}` : state.pitch === 0 ? 'Chuẩn' : state.pitch}
                   </span>
@@ -433,7 +433,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                   step="1"
                   value={state.pitch}
                   onChange={(e) => onUpdateScript(lang, { pitch: parseInt(e.target.value, 10) })}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full"
                 />
                 <div className="flex justify-between text-[9px] text-slate-400">
                   <span>Trầm ấm (-3)</span>
@@ -446,17 +446,17 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
         </div>
 
         {/* Action Buttons for this card */}
-        <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+        <div className="pt-2 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {/* Play Button */}
             <button
               type="button"
               onClick={() => handlePlayAudio(lang)}
               disabled={!state.text.trim()}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer disabled:opacity-40 ${
+              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-95 cursor-pointer disabled:opacity-40 ${
                 isPlaying
                   ? 'bg-amber-500 text-slate-950 font-bold animate-pulse'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
+                  : 'bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/[0.08]'
               }`}
             >
               {isPlaying ? (
@@ -476,7 +476,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                 <button
                   type="button"
                   onClick={() => handleDownloadSingleAudio(lang)}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700 text-xs font-medium transition cursor-pointer"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/[0.08] text-xs font-medium transition-all active:scale-95 cursor-pointer"
                   title={`Tải file audio ${audioFormat.toUpperCase()} cho ngôn ngữ này`}
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -487,8 +487,8 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                   type="button"
                   onClick={() => handleSaveSingleAudioToDrive(lang)}
                   disabled={savingDriveLang === lang}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-medium transition cursor-pointer disabled:opacity-40"
-                  title="Lưu file MP3 này trực tiếp vào thư mục Google Drive của bạn"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/25 text-xs font-medium transition-all active:scale-95 cursor-pointer disabled:opacity-40"
+                  title="Lưu file MP3 này trực tiếp vào Google Drive"
                 >
                   {savingDriveLang === lang ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-300" />
@@ -506,10 +506,10 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
             type="button"
             onClick={() => onGenerateSpeechForLang(lang)}
             disabled={state.isGenerating || isGeneratingAll || pacingState?.isActive || !state.text.trim()}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer disabled:opacity-40 ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95 cursor-pointer disabled:opacity-40 ${
               globalCooldown > 0 && !state.isGenerating
                 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40'
+                : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/35'
             }`}
             title={globalCooldown > 0 ? `Đang trong thời gian giãn cách 20 giây để bảo vệ hạn ngạch 3 RPM (còn ${globalCooldown}s)` : 'Tạo file âm thanh AI cho ngôn ngữ này'}
           >
@@ -541,22 +541,22 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
     <div className="space-y-4">
       {/* Active Pacing Card for Batch Mode (All 5 Languages) */}
       {(pacingState?.isActive && pacingState.mode === 'batch-all') && (
-        <div className="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-slate-900 border-2 border-amber-500/50 rounded-2xl p-4.5 space-y-3 animate-in fade-in duration-200 shadow-xl shadow-amber-950/30">
-          <div className="flex items-center justify-between gap-3 pb-2 border-b border-amber-500/20">
+        <div className="ios-card rounded-2xl p-4.5 space-y-3 animate-in fade-in duration-200 border border-amber-500/30 shadow-xl">
+          <div className="flex items-center justify-between gap-3 pb-2 border-b border-white/[0.08]">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-amber-500 text-slate-950 font-black animate-pulse">
-                <Clock className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center animate-pulse">
+                <Clock className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-extrabold text-amber-300">
-                    Tạo Giọng 5 Thứ Tiếng (Giới Hạn 3 RPM): Đang Giãn Cách 20 Giây
+                  <h4 className="text-xs sm:text-sm font-bold text-amber-300">
+                    Tạo Giọng 5 Thứ Tiếng: Đang Giãn Cách 20 Giây
                   </h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-bold">
                     {pacingState.completedCount}/5 Hoàn tất
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-0.5 font-medium">
+                <p className="text-xs text-slate-300 mt-0.5">
                   {pacingState.message}
                 </p>
               </div>
@@ -566,7 +566,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               <button
                 type="button"
                 onClick={onCancelPacing}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/40 transition cursor-pointer"
+                className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 transition-all active:scale-95 cursor-pointer"
               >
                 Dừng / Hủy
               </button>
@@ -575,17 +575,17 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
 
           {/* 20s Delay Countdown Progress Bar */}
           {pacingState.phase === 'delaying_cooldown' && (
-            <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-amber-500/30">
+            <div className="space-y-1.5 bg-black/40 p-3 rounded-xl border border-white/[0.06]">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-amber-300 flex items-center gap-1.5">
+                <span className="font-medium text-amber-300 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 animate-spin" />
                   Đang đếm ngược 20 giây chống khóa 3 RPM:
                 </span>
-                <span className="font-mono font-black text-amber-400 text-sm">
+                <span className="font-mono font-bold text-amber-400 text-sm">
                   {pacingState.remainingSeconds}s / 20s
                 </span>
               </div>
-              <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+              <div className="w-full h-2 bg-white/[0.1] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full transition-all duration-1000 ease-linear"
                   style={{
@@ -606,14 +606,14 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
               return (
                 <div
                   key={cfg.code}
-                  className={`p-2 rounded-xl text-xs font-medium border transition ${
+                  className={`p-2 rounded-xl text-xs font-medium border transition-all ${
                     hasAudio
-                      ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
                       : isCurrent
-                      ? 'bg-amber-500/20 border-amber-500/60 text-amber-300 ring-2 ring-amber-400/30 animate-pulse'
+                      ? 'bg-amber-500/20 border-amber-500/40 text-amber-300 ring-2 ring-amber-400/20 animate-pulse'
                       : isNext && pacingState.phase === 'delaying_cooldown'
-                      ? 'bg-orange-500/10 border-orange-500/40 text-orange-300'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-500'
+                      ? 'bg-orange-500/10 border-orange-500/30 text-orange-300'
+                      : 'bg-black/30 border-white/[0.06] text-slate-500'
                   }`}
                 >
                   <div className="text-base mb-0.5">{cfg.flag}</div>
@@ -639,9 +639,9 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
       )}
 
       {/* Top Bar: Tabs, View Toggle, Batch Generate */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
-        {/* Language Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 ios-card p-2 sm:p-2.5 rounded-2xl border border-white/[0.08]">
+        {/* Language Tabs (iOS Segmented Pills) */}
+        <div className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none ios-pill-tab p-1 rounded-full border border-white/[0.06]">
           {LANGUAGES_CONFIG.map((cfg) => {
             const hasAudio = !!scriptsState[cfg.code].audioBase64;
             const isTabActive = activeTab === cfg.code;
@@ -650,17 +650,17 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                 key={cfg.code}
                 type="button"
                 onClick={() => setActiveTab(cfg.code)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 ${
                   isTabActive
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                    : 'bg-slate-950/60 hover:bg-slate-800 text-slate-300 border border-slate-800'
+                    ? 'bg-white text-slate-950 shadow-sm'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <span>{cfg.flag}</span>
                 <span>{cfg.name}</span>
                 {hasAudio && (
                   <span
-                    className={`w-2 h-2 rounded-full ${
+                    className={`w-1.5 h-1.5 rounded-full ${
                       isTabActive ? 'bg-slate-950' : 'bg-emerald-400'
                     }`}
                   />
@@ -672,31 +672,31 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
 
         {/* View Mode & Batch Generate */}
         <div className="flex items-center gap-2 self-end md:self-auto">
-          {/* View Mode Switch */}
-          <div className="flex items-center bg-slate-950 rounded-lg p-0.5 border border-slate-800">
+          {/* View Mode Switch (iOS Segmented) */}
+          <div className="flex items-center ios-pill-tab rounded-full p-0.5 border border-white/[0.08]">
             <button
               type="button"
               onClick={() => setViewMode('single')}
-              className={`p-1.5 rounded-md text-xs font-medium transition cursor-pointer ${
+              className={`p-1.5 rounded-full text-xs font-medium transition-all active:scale-95 cursor-pointer ${
                 viewMode === 'single'
-                  ? 'bg-slate-800 text-amber-400'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-slate-950 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
               }`}
               title="Xem chi tiết từng ngôn ngữ"
             >
-              <Square className="w-4 h-4" />
+              <Square className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-md text-xs font-medium transition cursor-pointer ${
+              className={`p-1.5 rounded-full text-xs font-medium transition-all active:scale-95 cursor-pointer ${
                 viewMode === 'grid'
-                  ? 'bg-slate-800 text-amber-400'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-slate-950 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
               }`}
               title="Xem đối chiếu cả 5 ngôn ngữ"
             >
-              <Columns3 className="w-4 h-4" />
+              <Columns3 className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -705,14 +705,14 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
             type="button"
             onClick={onGenerateSpeechForAll}
             disabled={isGeneratingAll || pacingState?.isActive}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-md shadow-emerald-950/40 border border-emerald-400/20 transition cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:brightness-105 active:scale-95 text-white shadow-md shadow-emerald-500/20 border border-emerald-400/20 transition-all cursor-pointer disabled:opacity-50"
           >
             {isGeneratingAll || (pacingState?.isActive && pacingState.mode === 'batch-all') ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 <span>
                   {pacingState?.phase === 'delaying_cooldown'
-                    ? `⏳ Đang giãn cách 20s (${pacingState.remainingSeconds}s)...`
+                    ? `⏳ Đang giãn cách (${pacingState.remainingSeconds}s)...`
                     : 'Đang tạo cả 5 tiếng...'}
                 </span>
               </>

@@ -7,11 +7,12 @@ import {
   User,
   signOut,
 } from 'firebase/auth';
-import firebaseConfig from '../../firebase-applet-config.json';
+import { getSafeFirebaseConfig } from './firebaseConfig';
 
 // Google Drive file scope (least privilege: only access files created/opened by this app)
 export const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 
+const firebaseConfig = getSafeFirebaseConfig();
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
