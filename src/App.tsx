@@ -309,11 +309,12 @@ export default function App() {
       };
       setScriptsState(updatedScripts);
 
-      showToast('Bước 2/2: Đang tạo giọng nói AI cho 5 ngôn ngữ (Giãn cách 20s/ngôn ngữ để tránh 3 RPM)...', 'info');
+      showToast('Bước 2/2: Đang tạo giọng nói AI cho 5 ngôn ngữ...', 'info');
 
-      // 2. TTS Generation for all 5 languages with strictly enforced 20s inter-language delay
+      // 2. TTS Generation for all 5 languages (adaptive pacing: 20s if Gemini 3 RPM quota applies, 1s if fallback)
       const langs: LanguageCode[] = ['vi', 'en', 'ko', 'zh', 'ru'];
       let count = 0;
+      let isFallbackActive = false;
 
       for (let i = 0; i < langs.length; i++) {
         if (abortPacingRef.current) break;
@@ -322,26 +323,31 @@ export default function App() {
         const scriptObj = updatedScripts[lang];
         if (!scriptObj.text.trim()) continue;
 
-        // If this is NOT the first language, delay 20 full seconds with live visual countdown!
+        // If this is NOT the first language, delay with live visual countdown
         if (i > 0) {
+          const delaySec = isFallbackActive ? 1 : 20;
           setPacingState({
             isActive: true,
             mode: 'one-click',
             currentLang: langs[i - 1],
             nextLang: lang,
             phase: 'delaying_cooldown',
-            remainingSeconds: 20,
-            totalSeconds: 20,
+            remainingSeconds: delaySec,
+            totalSeconds: delaySec,
             completedCount: count,
             totalCount: 5,
-            message: `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}...`,
+            message: isFallbackActive
+              ? `Đang chuyển sang tạo ${LANG_DISPLAY_NAMES[lang]}...`
+              : `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}...`,
           });
 
-          const delayed = await delayWithCountdown(20, (rem) => {
+          const delayed = await delayWithCountdown(delaySec, (rem) => {
             setPacingState((prev) => ({
               ...prev,
               remainingSeconds: rem,
-              message: `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}... (còn ${rem}s)`,
+              message: isFallbackActive
+                ? `Đang chuyển sang tạo ${LANG_DISPLAY_NAMES[lang]}...`
+                : `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}... (còn ${rem}s)`,
             }));
           });
 
@@ -375,16 +381,24 @@ export default function App() {
               language: lang,
               voiceName: scriptObj.voice,
               tone: scriptObj.toneStyle,
+              speed: scriptObj.speed,
+              pitch: scriptObj.pitch,
             }),
           });
           const ttsData = await resTts.json();
           if (resTts.ok && ttsData.audioBase64) {
+            if (ttsData.fallbackUsed) {
+              isFallbackActive = true;
+            }
             handleUpdateScript(lang, {
               audioBase64: ttsData.audioBase64,
+              generatedVoice: scriptObj.voice,
               isGenerating: false,
             });
             count++;
-            startGlobalCooldown(20);
+            if (!ttsData.fallbackUsed) {
+              startGlobalCooldown(20);
+            }
           } else {
             handleUpdateScript(lang, { isGenerating: false });
             showToast(`Lỗi tạo giọng ${LANG_DISPLAY_NAMES[lang]}: ${ttsData.error || 'Thử lại sau'}`, 'error');
@@ -408,7 +422,7 @@ export default function App() {
       });
 
       if (count > 0) {
-        showToast(`🎉 Hoàn tất! Đã tạo thành công ${count}/5 file audio ${audioFormat.toUpperCase()} (Bảo đảm an toàn hạn ngạch 3 RPM)! Hãy bấm "Tải trọn bộ 5 file ZIP"!`, 'success');
+        showToast(`🎉 Hoàn tất! Đã tạo thành công ${count}/5 file audio ${audioFormat.toUpperCase()}! Hãy bấm "Tải trọn bộ 5 file ZIP" hoặc lưu vào Google Drive!`, 'success');
       }
     } catch (err: any) {
       console.error('One-click flow error:', err);
@@ -419,7 +433,7 @@ export default function App() {
     }
   };
 
-  // Single language TTS generation via Gemini 3.8 Flash Lite TTS with 20s cooldown restriction
+  // Single language TTS generation via Gemini 3.8 Flash Lite TTS with adaptive cooldown
   const handleGenerateSpeechForLang = async (lang: LanguageCode) => {
     const script = scriptsState[lang];
     if (!script.text.trim()) {
@@ -449,6 +463,8 @@ export default function App() {
           language: lang,
           voiceName: script.voice,
           tone: script.toneStyle,
+          speed: script.speed,
+          pitch: script.pitch,
         }),
       });
 
@@ -460,11 +476,16 @@ export default function App() {
 
       handleUpdateScript(lang, {
         audioBase64: data.audioBase64,
+        generatedVoice: script.voice,
         isGenerating: false,
       });
 
-      startGlobalCooldown(20);
-      showToast(`Tạo thành công giọng đọc ${LANG_DISPLAY_NAMES[lang]}! Bắt đầu giãn cách 20s.`, 'success');
+      if (!data.fallbackUsed) {
+        startGlobalCooldown(20);
+        showToast(`Tạo thành công giọng đọc ${LANG_DISPLAY_NAMES[lang]}! Bắt đầu giãn cách 20s.`, 'success');
+      } else {
+        showToast(`Tạo thành công giọng đọc ${LANG_DISPLAY_NAMES[lang]}!`, 'success');
+      }
     } catch (err: any) {
       console.error('TTS error:', err);
       handleUpdateScript(lang, {
@@ -475,7 +496,7 @@ export default function App() {
     }
   };
 
-  // Generate speech for all 5 languages sequentially with 20s delay between each to satisfy 3 RPM
+  // Generate speech for all 5 languages sequentially with adaptive delay
   const handleGenerateSpeechForAll = async () => {
     abortPacingRef.current = false;
     setIsGeneratingAll(true);
@@ -508,6 +529,7 @@ export default function App() {
 
     const langs: LanguageCode[] = ['vi', 'en', 'ko', 'zh', 'ru'];
     let successCount = 0;
+    let isFallbackActive = false;
 
     for (let i = 0; i < langs.length; i++) {
       if (abortPacingRef.current) break;
@@ -517,24 +539,29 @@ export default function App() {
       if (!script.text.trim()) continue;
 
       if (i > 0) {
+        const delaySec = isFallbackActive ? 1 : 20;
         setPacingState({
           isActive: true,
           mode: 'batch-all',
           currentLang: langs[i - 1],
           nextLang: lang,
           phase: 'delaying_cooldown',
-          remainingSeconds: 20,
-          totalSeconds: 20,
+          remainingSeconds: delaySec,
+          totalSeconds: delaySec,
           completedCount: successCount,
           totalCount: 5,
-          message: `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}...`,
+          message: isFallbackActive
+            ? `Đang chuyển sang tạo ${LANG_DISPLAY_NAMES[lang]}...`
+            : `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}...`,
         });
 
-        const delayed = await delayWithCountdown(20, (rem) => {
+        const delayed = await delayWithCountdown(delaySec, (rem) => {
           setPacingState((prev) => ({
             ...prev,
             remainingSeconds: rem,
-            message: `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}... (còn ${rem}s)`,
+            message: isFallbackActive
+              ? `Đang chuyển sang tạo ${LANG_DISPLAY_NAMES[lang]}...`
+              : `Đang giãn cách 20s (Giới hạn 3 RPM) trước khi tạo ${LANG_DISPLAY_NAMES[lang]}... (còn ${rem}s)`,
           }));
         });
 
@@ -567,17 +594,25 @@ export default function App() {
             language: lang,
             voiceName: script.voice,
             tone: script.toneStyle,
+            speed: script.speed,
+            pitch: script.pitch,
           }),
         });
 
         const data = await res.json();
         if (res.ok && data.audioBase64) {
+          if (data.fallbackUsed) {
+            isFallbackActive = true;
+          }
           handleUpdateScript(lang, {
             audioBase64: data.audioBase64,
+            generatedVoice: script.voice,
             isGenerating: false,
           });
           successCount++;
-          startGlobalCooldown(20);
+          if (!data.fallbackUsed) {
+            startGlobalCooldown(20);
+          }
         } else {
           handleUpdateScript(lang, { isGenerating: false });
         }
@@ -600,7 +635,7 @@ export default function App() {
     });
 
     setIsGeneratingAll(false);
-    showToast(`Đã hoàn tất tạo giọng nói cho ${successCount}/5 ngôn ngữ (Tuân thủ giới hạn 3 RPM)!`, 'success');
+    showToast(`Đã hoàn tất tạo giọng nói cho ${successCount}/5 ngôn ngữ!`, 'success');
   };
 
   // AI Script Modal apply

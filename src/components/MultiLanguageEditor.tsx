@@ -103,6 +103,13 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
     stopActiveAudio();
     const state = scriptsState[lang];
 
+    const isVoiceStale = state.audioBase64 && state.generatedVoice && state.generatedVoice !== state.voice;
+    if (isVoiceStale) {
+      // User changed voice selection: regenerate with the newly selected voice
+      onGenerateSpeechForLang(lang);
+      return;
+    }
+
     // If we have generated audio base64 or blob
     if (state.audioBase64) {
       try {
@@ -138,7 +145,7 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
       try {
         setPlayingLang(lang);
         const pitchNorm = 1.0 + (state.pitch / 8);
-        await fallbackSpeak(state.text, lang, state.speed, pitchNorm);
+        await fallbackSpeak(state.text, lang, state.speed, pitchNorm, state.voice);
       } catch (err) {
         console.error('Speech synthesis error:', err);
       } finally {
@@ -370,6 +377,20 @@ export const MultiLanguageEditor: React.FC<MultiLanguageEditorProps> = ({
                 <p className="mt-1 text-[11px] text-slate-400 italic">
                   🎯 Phong cách: {langConfig.voiceOptions.find((v) => v.id === state.voice)?.style}
                 </p>
+              )}
+
+              {state.audioBase64 && state.generatedVoice && state.generatedVoice !== state.voice && (
+                <div className="mt-2 p-2 rounded-lg bg-amber-500/15 border border-amber-500/40 flex items-center justify-between text-[11px] text-amber-300">
+                  <span>💡 Đã chọn chất giọng mới (<strong>{state.voice}</strong>).</span>
+                  <button
+                    type="button"
+                    onClick={() => onGenerateSpeechForLang(lang)}
+                    disabled={state.isGenerating}
+                    className="ml-2 px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] cursor-pointer whitespace-nowrap shadow"
+                  >
+                    Tạo lại ngay
+                  </button>
+                </div>
               )}
             </div>
 

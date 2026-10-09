@@ -336,14 +336,17 @@ export function encodeAudioBlob(audioBuffer: AudioBuffer, format: AudioFormat = 
   };
 }
 
+const MALE_VOICES = new Set(['Puck', 'Fenrir', 'Charon', 'Orus', 'Alnilam', 'Enceladus', 'Sadaltager', 'Zubenelgenubi']);
+
 /**
- * Fallback Web Speech API speech synthesis
+ * Fallback Web Speech API speech synthesis with voice character mapping
  */
 export async function fallbackSpeak(
   text: string,
   lang: LanguageCode,
   rate = 1.0,
-  pitch = 1.0
+  pitch = 1.0,
+  voiceName?: string
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     if (!('speechSynthesis' in window)) {
@@ -361,9 +364,28 @@ export async function fallbackSpeak(
       ru: 'ru-RU',
     };
 
-    utterance.lang = langTags[lang] || 'vi-VN';
+    const targetLangTag = langTags[lang] || 'vi-VN';
+    utterance.lang = targetLangTag;
+
+    const isMale = voiceName ? MALE_VOICES.has(voiceName) : false;
+
+    // Pitch baseline: masculine voices lower pitch, feminine voices clearer/higher
+    const voicePitchMultiplier = isMale ? 0.72 : (voiceName === 'Zephyr' || voiceName === 'Leda' ? 1.15 : 1.02);
+    utterance.pitch = Math.max(0.5, Math.min(1.8, pitch * voicePitchMultiplier));
     utterance.rate = Math.max(0.6, Math.min(1.5, rate));
-    utterance.pitch = Math.max(0.6, Math.min(1.4, pitch));
+
+    // Try finding matching voice by language and gender in available browser voices
+    const availableVoices = window.speechSynthesis.getVoices();
+    const langVoices = availableVoices.filter(v => v.lang.startsWith(targetLangTag.split('-')[0]));
+    if (langVoices.length > 0) {
+      if (isMale) {
+        const maleVoice = langVoices.find(v => /male|nam|david|guy|mark|george|yuri/i.test(v.name));
+        if (maleVoice) utterance.voice = maleVoice;
+      } else {
+        const femaleVoice = langVoices.find(v => /female|nữ|zira|jenny|aria|samantha/i.test(v.name));
+        if (femaleVoice) utterance.voice = femaleVoice;
+      }
+    }
 
     utterance.onend = () => resolve();
     utterance.onerror = (e) => reject(new Error(`Lỗi phát giọng: ${e.error}`));

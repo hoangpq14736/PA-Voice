@@ -30,6 +30,7 @@ export interface ScriptState {
   audioDuration: number;
   isGenerating: boolean;
   error: string | null;
+  generatedVoice?: string;
 }
 
 export type ChimeType = 'sunworld' | 'dingdong' | 'attention' | 'urgent' | 'none';
